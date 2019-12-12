@@ -2,23 +2,23 @@ var documenterSearchIndex = {"docs": [
 
 {
     "location": "#",
-    "page": "IPC.jl Package",
-    "title": "IPC.jl Package",
+    "page": "A Julia Package for Inter-Process Communication",
+    "title": "A Julia Package for Inter-Process Communication",
     "category": "page",
     "text": ""
 },
 
 {
-    "location": "#IPC.jl-Package-1",
-    "page": "IPC.jl Package",
-    "title": "IPC.jl Package",
+    "location": "#A-Julia-Package-for-Inter-Process-Communication-1",
+    "page": "A Julia Package for Inter-Process Communication",
+    "title": "A Julia Package for Inter-Process Communication",
     "category": "section",
-    "text": "Pages = [\"semaphores.md\", \"reference.md\"]"
+    "text": "Julia has already many methods for inter-process communication (IPC): sockets, semaphores, memory mapped files, etc.  You may however want to have Julia interacts with other processes or threads by means of BSD (System V) IPC or POSIX shared memory, semaphores, message queues or mutexes and condition variables.  Package IPC.jl intends to provide such facilities.The code source of IPC.jl is here.Pages = [\"semaphores.md\", \"reference.md\"]"
 },
 
 {
     "location": "#Index-1",
-    "page": "IPC.jl Package",
+    "page": "A Julia Package for Inter-Process Communication",
     "title": "Index",
     "category": "section",
     "text": ""
