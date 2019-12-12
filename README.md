@@ -4,6 +4,8 @@
 |:--------------------------------|:--------------------------------|:------------------------------|:--------------------------------------------------------------------|
 | [![][doc-dev-img]][doc-dev-url] | [![][license-img]][license-url] | [![][travis-img]][travis-url] | [![][coveralls-img]][coveralls-url] [![][codecov-img]][codecov-url] |
 
+**IPC.jl has been renamed as [InterProcessCommunication.jl](https://github.com/emmt/InterProcessCommunication.jl)**
+
 Julia has already many methods for inter-process communication (IPC): sockets,
 semaphores, memory mapped files, etc.  You may however want to have Julia
 interacts with other processes or threads by means of BSD (System V) IPC or
