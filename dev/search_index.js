@@ -333,7 +333,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Reference",
     "title": "IPC.SigSet",
     "category": "type",
-    "text": "SigSet represents a C sigset_t structure.  It should be considered as opaque, its contents is stored as a tuple of unsigned integers whose size matches that of sigset_t.\n\nTypical usage is:\n\nsigset = SigSet()\nsigset[signum] -> boolean\nsigset[signum] = boolean\nfill!(sigset, boolean) -> sigset\n\nIPC.sigfillset!(sigset)          # same as fill!(signum, true)\nIPC.sigemptyset!(sigset)         # same as fill!(signum, false)\nIPC.sigaddset!(sigset, signum)   # same as sigset[signum] = true\nIPC.sigdelset!(sigset, signum)   # same as sigset[signum] = false\nIPC.sigismember(sigset, signum)  # same as sigset[signum]\n\n\nsignum is the signal number, an integer greater or equal 1 and less or equalIPC.SIGRTMAX.  Real-time signals have a number signum such that IPC.SIGRTMIN ≤ signum ≤ IPC.SIGRTMAX\n\n\n\n\n\n"
+    "text": "SigSet represents a C sigset_t structure.  It should be considered as opaque, its contents is stored as a tuple of unsigned integers whose size matches that of sigset_t.\n\nTypical usage is:\n\nsigset = SigSet()\nsigset[signum] -> boolean\nsigset[signum] = boolean\nfill!(sigset, boolean) -> sigset\n\nwhere signum is the signal number, an integer greater or equal 1 and less or equalIPC.SIGRTMAX.  Real-time signals have a number signum such that IPC.SIGRTMIN ≤ signum ≤ IPC.SIGRTMAX\n\nNon-exported methods:\n\nIPC.sigfillset!(sigset)          # same as fill!(signum, true)\nIPC.sigemptyset!(sigset)         # same as fill!(signum, false)\nIPC.sigaddset!(sigset, signum)   # same as sigset[signum] = true\nIPC.sigdelset!(sigset, signum)   # same as sigset[signum] = false\nIPC.sigismember(sigset, signum)  # same as sigset[signum]\n\n\n\n\n\n"
 },
 
 {
@@ -341,7 +341,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Reference",
     "title": "IPC.SigAction",
     "category": "type",
-    "text": "SigAction is the counterpart of the C struct sigaction structure.  It is used to specify the action taken by a process on receipt of a signal.  Assuming sa is an instance of SigAction, its fields are:\n\nsa.handler         # address of a signal handler\nsa.mask            # mask of the signals to block\nsa.flags           # bitwise flags\n\nwhere sa.handler is the address of a C function (can be SIG_IGN or SIG_DFL) to be called on receipt of the signal.  This function may be given by cfunction.  If IPC.SA_INFO is not set in sa.flags, then the signature of the handler is:\n\n``julia function handler(signum::Cint)::Nothing\n\n\nthat is a function which takes a single argument of type `Cint` and returns\nnothing; if `IPC.SA_INFO` is not set in `sa.flags`, then the signature of the\nhandler is:\n\n``julia\nfunction handler(signum::Cint, siginf::Ptr{SigInfo}, unused::Ptr{Cvoid})::Nothing\n\nthat is a function which takes 3 arguments of type Cint, Ptr{SigInfo}, Ptr{Cvoid} repectively and which returns nothing.  See SigInfo for a description of the siginf argument by the handler.\n\nCall:\n\nsa = SigAction()\n\nto create a new empty structure or\n\nsa = SigAction(handler, mask, flags)\n\nto provide all fields.\n\nSee also SigInfo, sigaction and sigaction!.\n\n\n\n\n\n"
+    "text": "SigAction is the counterpart of the C struct sigaction structure.  It is used to specify the action taken by a process on receipt of a signal.  Assuming sa is an instance of SigAction, its fields are:\n\nsa.handler         # address of a signal handler\nsa.mask            # mask of the signals to block\nsa.flags           # bitwise flags\n\nwhere sa.handler is the address of a C function (can be SIG_IGN or SIG_DFL) to be called on receipt of the signal.  This function may be given by cfunction.  If IPC.SA_INFO is not set in sa.flags, then the signature of the handler is:\n\nfunction handler(signum::Cint)::Nothing\n\nthat is a function which takes a single argument of type Cint and returns nothing; if IPC.SA_INFO is not set in sa.flags, then the signature of the handler is:\n\nfunction handler(signum::Cint, siginf::Ptr{SigInfo}, unused::Ptr{Cvoid})::Nothing\n\nthat is a function which takes 3 arguments of type Cint, Ptr{SigInfo}, Ptr{Cvoid} repectively and which returns nothing.  See SigInfo for a description of the siginf argument by the handler.\n\nCall:\n\nsa = SigAction()\n\nto create a new empty structure or\n\nsa = SigAction(handler, mask, flags)\n\nto provide all fields.\n\nSee also SigInfo, sigaction and sigaction!.\n\n\n\n\n\n"
 },
 
 {
@@ -357,7 +357,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Reference",
     "title": "IPC.sigaction",
     "category": "function",
-    "text": "sigaction(signum) -> cur\n\nyields the current action taken by the process on receipt of the signal signum.\n\nsigaction(signum, sigact)\n\ninstalls sigact (an instance of SigAction) to be the action taken by the process on receipt of the signal signum.\n\nNote that signum cannot be SIGKILL nor SIGSTOP.\n\nSee also SigAction and sigaction!.\n\n\n\n\n\n"
+    "text": "sigaction(signum) -> sigact\n\nyields the current action (an instance of SigAction) taken by the process on receipt of the signal signum.\n\nsigaction(signum, sigact)\n\ninstalls sigact (an instance of SigAction) to be the action taken by the process on receipt of the signal signum.\n\nNote that signum cannot be SIGKILL nor SIGSTOP.\n\nSee also SigAction and sigaction!.\n\n\n\n\n\n"
 },
 
 {
@@ -365,7 +365,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Reference",
     "title": "IPC.sigaction!",
     "category": "function",
-    "text": "sigaction!(signum, sigact, oldact) -> oldact\n\ninstalls sigact to be the action taken by the process on receipt of the signal signum, overwrites oldact with the previous action and returns it. See SigAction and sigaction for more details.\n\n\n\n\n\n"
+    "text": "sigaction!(signum, sigact, oldact) -> oldact\n\ninstalls sigact to be the action taken by the process on receipt of the signal signum, overwrites oldact with the previous action and returns it. Arguments sigact and oldact are instances of SigAction.\n\nSee SigAction and sigaction for more details.\n\n\n\n\n\n"
 },
 
 {
@@ -397,7 +397,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Reference",
     "title": "IPC.sigprocmask!",
     "category": "function",
-    "text": "sigprocmask() -> cur\n\nyields the current set of blocked signals.  To change the set of blocked signals, call:\n\nsigprocmask(how, set)\n\nwith set a SigSet mask and how a parameter which specifies how to interpret set:\n\nIPC.SIG_BLOCK: The set of blocked signals is the union of the current set and the set argument.\nIPC.SIG_UNBLOCK: The signals in set are removed from the current set of blocked signals.  It is permissible to attempt to unblock a signal which is not blocked.\nIPC.SIG_SETMASK: The set of blocked signals is set to the argument set.\n\nSee also: sigprocmask!.\n\n\n\n\n\n\n\n"
+    "text": "sigprocmask!(cur) -> cur\n\noverwrites cur, an instance of SigSet, with the current set of blocked signals and returns it.  To change the set of blocked signals, call:\n\nsigprocmask!(how, set, old) -> old\n\nwhich changes the set of blocked signals according to how and set (see sigprocmask), overwrites old, an instance of SigSet, with the previous set of blocked signals and returns old.\n\nSee also: sigprocmask.\n\n\n\n\n\n"
 },
 
 {
@@ -421,7 +421,7 @@ var documenterSearchIndex = {"docs": [
     "page": "Reference",
     "title": "IPC.sigwait",
     "category": "function",
-    "text": "sigwait(mask, timeout=Inf) -> signum\n\nsuspends execution of the calling thread until one of the signals specified in the signal set mask becomes pending.  The function accepts the signal (removes it from the pending list of signals), and returns the signal number signum.\n\nOptional argument timeout can be specified to set a limit on the time to wait for one the signals to become pending.  timeout can be a real number to specify a number of seconds or an instance of TimeSpec.  If timeout is Inf (the default), it is assumed that there is no limit on the time to wait. If timeout is a number of seconds smaller or equal zero or if timeout is TimeSpec(0,0), the methods performs a poll and returns immediately.  It none of the signals specified in the signal set mask becomes pending during the allowed waiting time, a TimeoutError exception is raised.\n\nSee also: sigwait!.\n\n\n\n\n\n"
+    "text": "sigwait(mask, timeout=Inf) -> signum\n\nsuspends execution of the calling thread until one of the signals specified in the signal set mask becomes pending.  The function accepts the signal (removes it from the pending list of signals), and returns the signal number signum.\n\nOptional argument timeout can be specified to set a limit on the time to wait for one the signals to become pending.  timeout can be a real number to specify a number of seconds or an instance of TimeSpec.  If timeout is Inf (the default), it is assumed that there is no limit on the time to wait.  If timeout is a number of seconds smaller or equal zero or if timeout is TimeSpec(0,0), the methods performs a poll and returns immediately.  It none of the signals specified in the signal set mask becomes pending during the allowed waiting time, a TimeoutError exception is thrown.\n\nSee also: sigwait!, TimeSpec, TimeoutError.\n\n\n\n\n\n"
 },
 
 {
